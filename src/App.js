@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
+import Axios from 'axios'
 
 function App() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [siteName, setSiteName] = useState('');
+  const [loginURL, setLoginURL] = useState('');
+  const [companyId, setCompanyId] = useState('');
 
   return (
     <>
@@ -23,14 +25,29 @@ function App() {
       </input>
       <input type='text' 
         onChange={(e)=>{
-          setSiteName(e.target.value)
+          setLoginURL(e.target.value)
         }}
         placeholder='Login URL'>
       </input>
+      <input type='text' 
+        onChange={(e)=>{
+          setCompanyId(e.target.value)
+        }}
+        placeholder='Company ID'>
+      </input>
       <button 
         onClick={()=>{
-          console.log(username, 'username Test');
-          console.log(password, 'password Test');
+          Axios.get('api/test', {
+            params : {
+              username , password , loginURL, companyId
+            }
+          })
+          .then((res)=>{
+            console.log(res)
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
         }
       }>
       Test
